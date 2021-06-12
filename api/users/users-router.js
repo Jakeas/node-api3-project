@@ -23,7 +23,7 @@ router.get('/:id', validateUserId, (req, res) => {
   Users.getById(id)
   .then(foundUser => {
     if(foundUser){
-      return res.status(200).json({message: foundUser})
+      return res.status(200).json(foundUser)
     } else {
       return res.status(404).json({message: "No user with that id"})
     }
@@ -36,7 +36,7 @@ router.post('/', validateUser, (req, res) => {
   // this needs a middleware to check that the request body is valid
   const user = req.body
   Users.insert(user)
-    .then(createdUser => res.status(201).json({message:createdUser}))
+    .then(createdUser => res.status(201).json(createdUser))
     .catch(err=>res.status(500).json({message: "server error", err}))
 });
 
@@ -48,11 +48,11 @@ router.put('/:id', validateUser, validateUserId, (req, res) => {
   const updatedUser = req.body
   Users.update(id, updatedUser)
     .then(updated=>{
-      if(updated){
-        return res.status(200).json({message:updated})
-      } else{
-        return res.status(404).json({message:"No user with that id"})
-      }
+      // if(updated){
+        return res.status(200).json({id: Number(id), name: updatedUser.name})
+      // } else{
+      //   return res.status(404).json({message:"No user with that id"})
+      // }
     })
     .catch(err=>res.status(500).json({message: "server error"}))
 });
@@ -64,7 +64,7 @@ router.delete('/:id', validateUserId, (req, res) => {
   Users.remove(id)
   .then(deletedUser=>{
     if(deletedUser){
-      return res.status(200).json({message: deletedUser})
+     res.status(200).json(req.body.user)
     } else {
       res.status(404).json({message: "No user with that id"})
     }

@@ -12,9 +12,10 @@ function validateUserId(req, res, next) {
   Users.getById(id)
   .then(foundUser => {
     if(foundUser){
-   next()
+      req.body.user = foundUser
+      next()
     } else {
-      return res.status(404).json({message: "No user with that id, yo"})
+      return res.status(404).json({message: "User not found"})
     }
   })
   .catch(err=>res.status(500).json({message: "server error"}))
@@ -23,8 +24,8 @@ function validateUserId(req, res, next) {
 function validateUser(req, res, next) {
   // DO YOUR MAGIC
   const valUser = req.body
-  if(!valUser.name){
-    res.status(422).json("Needs a name")
+  if(valUser === {} || !valUser.name){
+    res.status(400).json({message: "Missing required name"})
   } else {
     next()
   }
