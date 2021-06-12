@@ -32,6 +32,12 @@ function validateUser(req, res, next) {
 
 function validatePost(req, res, next) {
   // DO YOUR MAGIC
+  const valPost = req.body
+  if(!valPost.text || !valPost.postedBy){
+    res.status(422).json("Needs text and posted by")
+  } else {
+    next()
+  }
 }
 
 // do not forget to expose these functions to other modules

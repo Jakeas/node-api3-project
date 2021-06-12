@@ -76,7 +76,7 @@ router.get('/:id/posts', validateUserId,(req, res) => {
   // RETURN THE ARRAY OF USER POSTS
   // this needs a middleware to verify user id
   const {id} = req.params
-  Posts.getUserPosts(id)
+  Users.getUserPosts(id)
     .then(foundPost => {
       if(foundPost){
         return res.status(200).json({message: foundPost})
